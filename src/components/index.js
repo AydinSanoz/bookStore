@@ -1,1 +1,1 @@
-export * from './Bookcard'
+export * from './Bookcard';

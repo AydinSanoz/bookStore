@@ -1,6 +1,7 @@
 import React from 'react';
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image, TouchableOpacity} from 'react-native';
 import {bookCard} from '../styles';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export const BookCard = ({item}) => {
   return (
@@ -14,6 +15,14 @@ export const BookCard = ({item}) => {
       <View style={bookCard.textWrapper}>
         <Text style={bookCard.text}>{item.title}</Text>
         <Text style={bookCard.text}>Author:{item.authors || 'Yok'}</Text>
+        <View style={bookCard.addToFavWrapper}>
+          <TouchableOpacity style={bookCard.likeButton}>
+            <Icon name="favorite-border" size={30} color="#300" />
+          </TouchableOpacity>
+          <TouchableOpacity style={bookCard.addToFavButton}>
+            <Text>Add To Favorites</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );

@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import {SafeAreaView, View, Text, FlatList} from 'react-native';
-import {BookCard} from './components';
+import {BookCard} from '../components';
 import axios from 'axios';
-import {main} from './styles';
+import {main} from '../styles';
 
-const Book = () => {
+export const Main = (props) => {
   const [bookList, setBookList] = useState([]);
 
   const fetchData = async (selectedCategory) => {
@@ -13,7 +13,7 @@ const Book = () => {
       'https://www.googleapis.com/books/v1/volumes?',
       {
         params: {
-          q: 'Bilgisayar',
+          q: 'Cook',
         },
       },
     );
@@ -41,5 +41,3 @@ const Book = () => {
     </SafeAreaView>
   );
 };
-
-export default Book;
