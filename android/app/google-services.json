@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1029624465148",
+    "project_id": "bookstore-2e849",
+    "storage_bucket": "bookstore-2e849.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1029624465148:android:0722ebd5d3ec159a11f979",
+        "android_client_info": {
+          "package_name": "com.book"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1029624465148-nafihrpp00dag2k1jp9uakfpi74pf4jv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwHRz7cJcZa82rItBN37ZgCKghoZNAuuY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1029624465148-nafihrpp00dag2k1jp9uakfpi74pf4jv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1029624465148-u5lvsp888ls707jmgfmqpckofqvs0m2e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.book"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
