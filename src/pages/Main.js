@@ -7,19 +7,21 @@ import {firebase} from '@react-native-firebase/firestore';
 
 export const Main = (props) => {
   const [bookList, setBookList] = useState([]);
-  const [books, setBooks] = useState('');
+  const [books, setBooks] = useState([]);
   const [text, setText] = useState('');
   const ref = firebase.firestore().collection('BookList');
 
   async function addBook(items) {
     await ref.add({
-      items,
+      isLiked: false,
+      title: items.title,
+      authors: items.authors,
+      imgUri: items?.imageLinks?.smallThumbnail,
     });
   }
 
   const fetchData = async (searchText) => {
     console.log('Fetch starts');
-    console.log('sss', searchText);
     const {data} = await axios.get(
       'https://www.googleapis.com/books/v1/volumes?',
       {
@@ -28,7 +30,6 @@ export const Main = (props) => {
         },
       },
     );
-    addBook(data.items);
     setBookList(data.items);
   };
 
@@ -36,29 +37,40 @@ export const Main = (props) => {
     fetchData();
   }, []);
 
-  // useEffect(() => {
-  //   const subscriber = firestore()
-  //     .collection('Users')
-  //     .onSnapshot((querySnapshot) => {
-  //       const users = [];
+  useEffect(() => {
+    return ref.onSnapshot((querySnapshot) => {
+      const list = [];
+      querySnapshot.forEach((doc) => {
+        console.log(
+          '🚀 ~ file: Main.js ~ line 43 ~ querySnapshot.forEach ~ doc',
+          doc,
+        );
+        const {authors, imgUri, isLiked, title} = doc.data();
+        list.push({
+          id: doc.id,
+          authors,
+          imgUri,
+          isLiked,
+          title,
+        });
+      });
 
-  //       querySnapshot.forEach((documentSnapshot) => {
-  //         users.push({
-  //           ...documentSnapshot.data(),
-  //           key: documentSnapshot.id,
-  //         });
-  //       });
+      console.log("🚀 ~ file: Main.js ~ line 43 ~ returnref.onSnapshot ~ list", list)
+      setBooks(list);
 
-  //       setUsers(users);
-  //       setLoading(false);
-  //     });
-
-  //   // Unsubscribe from events when no longer in use
-  //   return () => subscriber();
-  // }, []);
+      // if (loading) {
+      //   setLoading(false);
+      // }
+    });
+  }, []);
 
   const renderData = ({item}) => {
+    addBook(item.volumeInfo);
     return <BookCard item={item.volumeInfo} />;
+  };
+
+  const onSearchPress = () => {
+    fetchData(text);
   };
 
   return (
@@ -69,7 +81,7 @@ export const Main = (props) => {
           placeholder="Enter a text to search"
           title="search"
           onChangeText={(val) => setText(val)}
-          onPress={() => fetchData(text)}
+          onPress={onSearchPress}
         />
         <FlatList
           keyExtractor={(_, index) => index.toString()}

@@ -1,22 +1,24 @@
 import React from 'react';
 import firestore from '@react-native-firebase/firestore';
-import {View, TouchableOpacity, Text} from 'react-native';
-import {List} from 'react-native-paper';
+import { List } from 'react-native-paper';
 
-function Todo({id, title, complete}) {
+function Todo({ id, title, complete }) {
   async function toggleComplete() {
-    await firestore().collection('todos').doc(id).update({
-      complete: !complete,
-    });
+    await firestore()
+      .collection('todos')
+      .doc(id)
+      .update({
+        complete: !complete,
+      });
   }
 
   return (
-    <View>
-      <TouchableOpacity onPress={() => toggleComplete()}>
-        <Text>title={title}</Text>
-      </TouchableOpacity>
-    </View>
+    <List.Item
+      title={title}
+      onPress={() => toggleComplete()}
+      left={props => (
+        <List.Icon {...props} icon={complete ? 'check' : 'cancel'} />
+      )}
+    />
   );
 }
-
-export default React.memo(Todo);
