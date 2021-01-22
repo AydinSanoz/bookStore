@@ -14,7 +14,7 @@ export const BookCard = ({item}) => {
       </View>
       <View style={bookCard.textWrapper}>
         <Text style={bookCard.text}>{item.title}</Text>
-        <Text style={bookCard.text}>Author:{item.authors || 'Yok'}</Text>
+        <Text style={bookCard.text}>Author:{item.authors || 'Not Defined'}</Text>
         <View style={bookCard.addToFavWrapper}>
           <TouchableOpacity style={bookCard.likeButton}>
             <Icon name="favorite-border" size={30} color="#300" />

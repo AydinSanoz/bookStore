@@ -44,3 +44,17 @@ export const bookCard = StyleSheet.create({
     color: 'orange',
   },
 });
+
+export const searchBox = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,
+    margin: 15,
+    borderRadius: 10,
+    backgroundColor: '#00000020',
+  },
+  text: {
+    margin: 10,
+  },
+});
