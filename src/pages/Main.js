@@ -4,7 +4,6 @@ import {BookCard, SearchBox} from '../components';
 import axios from 'axios';
 import {main} from '../styles';
 import {firebase} from '@react-native-firebase/firestore';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const Main = (props) => {
   const [bookList, setBookList] = useState([]);
@@ -13,7 +12,7 @@ export const Main = (props) => {
   const ref = firebase.firestore().collection('BookList');
 
   async function addDbBook(bookItem) {
-    await ref.add({
+    await ref.doc(bookItem.title).set({
       isLiked: false,
       title: bookItem?.title,
       authors: bookItem?.authors,
@@ -26,7 +25,7 @@ export const Main = (props) => {
       'https://www.googleapis.com/books/v1/volumes?',
       {
         params: {
-          q: searchText || 'Bilgisayar',
+          q: searchText || 'Bilgisayar/Bilgisayar Bilimleri',
         },
       },
     );

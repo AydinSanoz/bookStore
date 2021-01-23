@@ -30,7 +30,6 @@ export const Favorites = (props) => {
   }, []);
   console.log('favorites', favorites);
   const renderData = ({item}) => {
-    console.log('🚀 ~ file: Favorites.js ~ line 35 ~ renderData ~ item', item);
     return <FavoriteCard {...item} />;
   };
 

@@ -19,15 +19,14 @@ export default function App() {
             } else if (route.name === 'Home') {
               iconName = focused ? 'home-filled' : 'home';
             }
-
-            // You can return any component that you like here!
             return <Icon name={iconName} size={size} color={color} />;
           },
         })}
         tabBarOptions={{
           activeTintColor: 'tomato',
           inactiveTintColor: 'gray',
-        }}>
+        }}
+        initialRouteName="Home">
         <Tab.Screen name="Home" component={Main} />
         <Tab.Screen name="Favorites" component={Favorites} />
       </Tab.Navigator>
