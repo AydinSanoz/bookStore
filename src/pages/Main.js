@@ -3,42 +3,47 @@ import {SafeAreaView, View, Text, FlatList} from 'react-native';
 import {BookCard, SearchBox} from '../components';
 import axios from 'axios';
 import {main} from '../styles';
-import {firebase} from '@react-native-firebase/firestore';
+import firestore from '@react-native-firebase/firestore';
 
 export const Main = (props) => {
   const [bookList, setBookList] = useState([]);
   const [text, setText] = useState('');
 
-  const ref = firebase.firestore().collection('BookList');
+  const ref = firestore().collection('BookList');
 
   async function addDbBook(bookItem) {
-    await ref.doc(bookItem.title).set({
-      isLiked: false,
-      title: bookItem?.title,
-      authors: bookItem?.authors,
-      imgUri: bookItem?.imgUri,
+    await ref.doc(bookItem.id).set({
+      ...bookItem,
     });
   }
   const fetchData = async (searchText) => {
     console.log('Fetch starts');
-    const {data} = await axios.get(
-      'https://www.googleapis.com/books/v1/volumes?',
-      {
-        params: {
-          q: searchText || 'Bilgisayar/Bilgisayar Bilimleri',
+    try {
+      const {data} = await axios.get(
+        'https://www.googleapis.com/books/v1/volumes?',
+        {
+          params: {
+            q: searchText,
+          },
         },
-      },
-    );
-    setBookList(data.items);
+      );
+      console.log('fetchedData', data.items);
+
+      data.items.forEach((val) => {
+        const bookItem = {
+          id: val.id,
+          isLiked: false,
+          savedDate: firestore.Timestamp.now(),
+          authors: val?.volumeInfo?.authors,
+          title: val?.volumeInfo?.title,
+          imgUri: val?.volumeInfo?.imageLinks?.smallThumbnail,
+        };
+        addDbBook(bookItem);
+      });
+    } catch (error) {
+      console.log('error occurred', error);
+    }
     console.log('fetch ends');
-    data.items.forEach((val) => {
-      const bookItem = {
-        authors: val?.volumeInfo?.authors,
-        title: val?.volumeInfo?.title,
-        imgUri: val?.volumeInfo?.imageLinks?.smallThumbnail,
-      };
-      addDbBook(bookItem);
-    });
   };
 
   useEffect(() => {
@@ -46,21 +51,25 @@ export const Main = (props) => {
   }, []);
 
   useEffect(() => {
-    return ref.onSnapshot((querySnapshot) => {
-      const list = [];
-      querySnapshot.forEach((doc) => {
-        const {authors, imgUri, isLiked, title} = doc.data();
-        list.push({
-          id: doc.id,
-          authors,
-          imgUri,
-          isLiked,
-          title,
+    return ref
+      .orderBy('savedDate', 'desc')
+      .limit(10)
+      .onSnapshot((querySnapshot) => {
+        const list = [];
+        querySnapshot.forEach((doc) => {
+          const {authors, imgUri, isLiked, title} = doc.data();
+          list.push({
+            id: doc.id,
+            authors,
+            imgUri,
+            isLiked,
+            title,
+          });
+          setBookList(list);
         });
       });
-      setBookList(list);
-    });
   }, []);
+
   const renderData = ({item}) => {
     return <BookCard {...item} />;
   };
