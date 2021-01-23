@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import {bookCard} from '../styles';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {firebase} from '@react-native-firebase/firestore';
 
 export const BookCard = ({id, imgUri, authors, title, isLiked}) => {
   const toggleFavorites = async () => {

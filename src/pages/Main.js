@@ -8,26 +8,18 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const Main = (props) => {
   const [bookList, setBookList] = useState([]);
-  const [books, setBooks] = useState([]);
   const [text, setText] = useState('');
-  const [selectedBook, setSelectedBook] = useState('');
 
   const ref = firebase.firestore().collection('BookList');
 
   async function addDbBook(bookItem) {
     await ref.add({
-      isLiked: true,
+      isLiked: false,
       title: bookItem?.title,
       authors: bookItem?.authors,
       imgUri: bookItem?.imgUri,
     });
   }
-
-  function addToFav(selectedItem) {
-    console.log('AddToFav', selectedItem);
-    setSelectedBook(selectedItem);
-  }
-
   const fetchData = async (searchText) => {
     console.log('Fetch starts');
     const {data} = await axios.get(
