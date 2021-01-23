@@ -1,14 +1,9 @@
 import React from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import {bookCard} from '../styles';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 
-export const BookCard = ({id, imgUri, authors, title, isLiked}) => {
-  const toggleFavorites = async () => {
-    await firebase.firestore().collection('BookList').doc(id).update({
-      isLiked: !isLiked,
-    });
-  };
+
+export const FavoriteCard = ({id, imgUri, authors, title, isLiked}) => {
   return (
     <View style={bookCard.container}>
       <View style={bookCard.imgWrapper}>
@@ -17,22 +12,6 @@ export const BookCard = ({id, imgUri, authors, title, isLiked}) => {
       <View style={bookCard.textWrapper}>
         <Text style={bookCard.text}>{title}</Text>
         <Text style={bookCard.text}>Author:{authors || 'Not Defined'}</Text>
-        <View style={bookCard.addToFavWrapper}>
-          <TouchableOpacity
-            style={bookCard.likeButton}
-            onPress={toggleFavorites}>
-            <Icon
-              name={isLiked ? 'favorite' : 'favorite-border'}
-              size={30}
-              color="#900"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={bookCard.addToFavButton}
-            onPress={toggleFavorites}>
-            <Text>Add To Favorites</Text>
-          </TouchableOpacity>
-        </View>
       </View>
     </View>
   );

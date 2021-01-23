@@ -4,25 +4,28 @@ import {BookCard, SearchBox} from '../components';
 import axios from 'axios';
 import {main} from '../styles';
 import {firebase} from '@react-native-firebase/firestore';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const Main = (props) => {
   const [bookList, setBookList] = useState([]);
+  const [books, setBooks] = useState([]);
   const [text, setText] = useState('');
+  const [selectedBook, setSelectedBook] = useState('');
 
   const ref = firebase.firestore().collection('BookList');
 
-  function addToFav(selected) {
-    console.log('Fav', selected);
-    setFavorites(selected);
-  }
-  async function addBook(items) {
+  async function addDbBook(bookItem) {
     await ref.add({
-      isLiked: false,
-      title: items.title,
-      authors: items.authors,
-      imgUri: items?.imageLinks?.smallThumbnail,
+      isLiked: true,
+      title: bookItem?.title,
+      authors: bookItem?.authors,
+      imgUri: bookItem?.imgUri,
     });
+  }
+
+  function addToFav(selectedItem) {
+    console.log('AddToFav', selectedItem);
+    setSelectedBook(selectedItem);
   }
 
   const fetchData = async (searchText) => {
@@ -39,12 +42,11 @@ export const Main = (props) => {
     console.log('fetch ends');
     data.items.forEach((val) => {
       const bookItem = {
-        ...bookItem,
         authors: val?.volumeInfo?.authors,
         title: val?.volumeInfo?.title,
         imgUri: val?.volumeInfo?.imageLinks?.smallThumbnail,
       };
-      addBook(bookItem);
+      addDbBook(bookItem);
     });
   };
 
@@ -52,27 +54,24 @@ export const Main = (props) => {
     fetchData();
   }, []);
 
-  // useEffect(() => {
-  //   return ref.onSnapshot((querySnapshot) => {
-  //     const list = [];
-  //     querySnapshot.forEach((doc) => {
-  //       const {authors, imgUri, isLiked, title} = doc.data();
-  //       list.push({
-  //         id: doc.id,
-  //         authors,
-  //         imgUri,
-  //         isLiked,
-  //         title,
-  //       });
-  //     });
-  //     // console.log('list', list);
-  //     setBooks(list);
-  //   });
-  // }, []);
-
+  useEffect(() => {
+    return ref.onSnapshot((querySnapshot) => {
+      const list = [];
+      querySnapshot.forEach((doc) => {
+        const {authors, imgUri, isLiked, title} = doc.data();
+        list.push({
+          id: doc.id,
+          authors,
+          imgUri,
+          isLiked,
+          title,
+        });
+      });
+      setBookList(list);
+    });
+  }, []);
   const renderData = ({item}) => {
-    // console.log('🚀 ~ file: Main.js ~ line 80 ~ renderData ~ item', item);
-    return <BookCard item={item.volumeInfo} onPress={() => addToFav(item)} />;
+    return <BookCard {...item} />;
   };
 
   const onSearchPress = () => {

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {SafeAreaView, ScrollView, Text, FlatList} from 'react-native';
 import {Appbar, TextInput, Button} from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
-import Todo from './Todo';
+// import Todo from './Todo';
 
 function Todos() {
   const [todo, setTodo] = useState('');
@@ -47,7 +47,7 @@ function Todos() {
         style={{flex: 1}}
         data={todos}
         keyExtractor={(item) => item.id}
-        renderItem={({item}) => <Todo {...item} />}
+        // renderItem={({item}) => <Todo {...item} />}
       />
       <TextInput label={'New Todo'} value={todo} onChangeText={setTodo} />
       <Button onPress={() => addTodo()}>Add TODO</Button>
