@@ -3,7 +3,7 @@ import {View, Text, Image, TouchableOpacity} from 'react-native';
 import {bookCard} from '../styles';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-export const BookCard = ({item}) => {
+export const BookCard = ({item, onPress}) => {
   return (
     <View style={bookCard.container}>
       <View style={bookCard.imgWrapper}>
@@ -13,13 +13,15 @@ export const BookCard = ({item}) => {
         />
       </View>
       <View style={bookCard.textWrapper}>
-        <Text style={bookCard.text}>{item.title}</Text>
-        <Text style={bookCard.text}>Author:{item.authors || 'Not Defined'}</Text>
+        <Text style={bookCard.text}>{item?.title}</Text>
+        <Text style={bookCard.text}>
+          Author:{item?.authors || 'Not Defined'}
+        </Text>
         <View style={bookCard.addToFavWrapper}>
-          <TouchableOpacity style={bookCard.likeButton}>
+          <TouchableOpacity style={bookCard.likeButton} onPress={onPress}>
             <Icon name="favorite-border" size={30} color="#300" />
           </TouchableOpacity>
-          <TouchableOpacity style={bookCard.addToFavButton}>
+          <TouchableOpacity style={bookCard.addToFavButton} onPress={onPress}>
             <Text>Add To Favorites</Text>
           </TouchableOpacity>
         </View>

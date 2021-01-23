@@ -1,10 +1,14 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {SafeAreaView, View, Text} from 'react-native';
+import {BookCard} from '../components'
 
 export const Favorites = (props) => {
   return (
-    <View>
-      <Text>Favorites Page</Text>
-    </View>
+    <SafeAreaView>
+      <View>
+        <Text>Favorites Page</Text>
+        <BookCard />
+      </View>
+    </SafeAreaView>
   );
 };
