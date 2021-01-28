@@ -3,6 +3,7 @@ import {Dimensions, StyleSheet} from 'react-native';
 export const main = StyleSheet.create({
   container: {
     backgroundColor: '#d7ccc8',
+    flex: 1,
   },
 });
 
