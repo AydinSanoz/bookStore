@@ -19,3 +19,5 @@ function Todo({id, title, complete}) {
     />
   );
 }
+
+export default React.memo(Todo);
