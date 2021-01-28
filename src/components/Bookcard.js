@@ -2,11 +2,11 @@ import React from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import {bookCard} from '../styles';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {firebase} from '@react-native-firebase/firestore';
+import firestore from '@react-native-firebase/firestore';
 
-export const BookCard = ({id, imgUri, authors, title, isLiked}) => {
+const BookCard = ({id, imgUri, authors, title, isLiked}) => {
   const toggleFavorites = async () => {
-    await firebase.firestore().collection('BookList').doc(id).update({
+    await firestore().collection('BookList').doc(id).update({
       isLiked: !isLiked,
     });
   };
@@ -38,6 +38,8 @@ export const BookCard = ({id, imgUri, authors, title, isLiked}) => {
     </View>
   );
 };
+
+export default React.memo(BookCard);
 
 /*
 volumeInfo:

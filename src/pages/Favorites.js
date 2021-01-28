@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {SafeAreaView, View, Text} from 'react-native';
-import {FavoriteCard} from '../components';
 import {firebase} from '@react-native-firebase/firestore';
 import {FlatList} from 'react-native-gesture-handler';
+import FavoriteCard from '../components/FavoriteCard';
 
 export const Favorites = (props) => {
   const [favorites, setFavorites] = useState([]);

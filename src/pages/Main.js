@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {SafeAreaView, View, Text, FlatList} from 'react-native';
-import {BookCard, SearchBox} from '../components';
+import {SearchBox} from '../components';
+import Bookcard from '../components/Bookcard';
 import axios from 'axios';
 import {main} from '../styles';
 import firestore from '@react-native-firebase/firestore';
@@ -23,12 +24,11 @@ export const Main = (props) => {
         'https://www.googleapis.com/books/v1/volumes?',
         {
           params: {
-            q: searchText,
+            kind: searchText,
           },
         },
       );
       console.log('fetchedData', data.items);
-
       data.items.forEach((val) => {
         const bookItem = {
           id: val.id,
@@ -71,7 +71,7 @@ export const Main = (props) => {
   }, []);
 
   const renderData = ({item}) => {
-    return <BookCard {...item} />;
+    return <Bookcard {...item} />;
   };
 
   const onSearchPress = () => {
@@ -80,7 +80,7 @@ export const Main = (props) => {
 
   return (
     <SafeAreaView style={main.container}>
-      <View>
+      <View style={main.container}>
         <Text>Welcome Book</Text>
         <SearchBox
           placeholder="Enter a text to search"
