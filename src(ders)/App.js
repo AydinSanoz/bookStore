@@ -1,40 +1,40 @@
-import React, {useState} from 'react';
-import {View, Text, Button} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {SafeAreaView, View, Text, Button, Dimensions} from 'react-native';
 import Header from './components/Header';
-import hey from './assets/planet.jpg';
-import aa from './assets/unnamed.png';
+import planet from './assets/planet.jpg';
+import other from './assets/unnamed.png';
+import axios from 'axios';
+import List from './components/List';
 
-function App() {
-  const [count, setCount] = useState(0);
-  const [imgPath, setImgPath] = useState(hey);
+const App = () => {
+  console.log('Rendering Parent App js');
+  const [counter, setCounter] = useState(0);
+  const [userList, setUserList] = useState([]);
 
-  const increase = () => {
-    setCount((count) => count + 1);
-  };
-  const setChangeImage = () => {
-    setImgPath(aa);
-  };
+  function increase() {
+    setCounter(counter + 1);
+  }
+  useEffect(() => {
+    console.log('fetch starts');
+    axios.get('https://jsonplaceholder.typicode.com/users').then(({data}) => {
+      console.log('data', data);
+      setUserList(data);
+    });
+    console.log('fetch ends');
+  }, []);
 
   return (
-    <View>
-      <Header imgPath={imgPath} />
-      <View
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          flexDirection: 'column',
-          marginTop: 20,
-        }}>
-        <Button
-          title="Click me to increase the subcribers!"
-          onPress={increase}></Button>
-        <Button
-          title="Click me to change image"
-          onPress={setChangeImage}></Button>
-        <Text>Subscribed Person count: {count}</Text>
+    <SafeAreaView>
+      <View>
+        <View style={{backgroundColor: '#00000020', alignItems: 'center'}}>
+          <Text>App Counter</Text>
+          <Text style={{fontSize: 40}}>{counter}</Text>
+          <Button title="Increase Counter" onPress={increase} />
+        </View>
+        <List userList={userList} />
       </View>
-    </View>
+    </SafeAreaView>
   );
-}
+};
 
 export default App;
