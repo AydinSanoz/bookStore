@@ -5,6 +5,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import firestore from '@react-native-firebase/firestore';
 
 const BookCard = ({id, imgUri, authors, title, isLiked}) => {
+  console.log('FavoriteCard rendered');
+
   const toggleFavorites = async () => {
     await firestore().collection('BookList').doc(id).update({
       isLiked: !isLiked,

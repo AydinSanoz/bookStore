@@ -31,7 +31,7 @@ export const Main = (props) => {
       console.log('fetchedData', data.items);
       data.items.forEach((val) => {
         const bookItem = {
-          id: val.id,
+          id: val?.id,
           isLiked: false,
           savedDate: firestore.Timestamp.now(),
           authors: val?.volumeInfo?.authors,

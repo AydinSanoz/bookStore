@@ -3,6 +3,8 @@ import {View, TextInput, Button} from 'react-native';
 import {searchBox} from '../styles';
 
 export const SearchBox = (props) => {
+  console.log('SearchBox rendered');
+
   return (
     <View style={searchBox.container}>
       <TextInput
